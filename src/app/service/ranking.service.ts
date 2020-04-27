@@ -9,17 +9,39 @@ export class RankingService {
 
   findMultiplesHand(cards: Card[]): Card[] {
     const cardContainers = this.fillCardKinds(cards);
+    const handResult: Card[] = [];
     if (cardContainers[0].length < 2) {
+      // no multiples found
+      console.log('no multi');
       return [];
     }
-    return [];
-  }
-  fillCardKinds(cards: Card[]): Card[][] {
-    const kindContainers = new Array<Card[]>(13).fill([]);
-    for (const card of cards) {
-      kindContainers[card.kind - 2].push(card);
+    let containerIndex = 0;
+    while (handResult.length < 5) {
+      for (let i = 0; i < cardContainers[containerIndex].length; i++) {
+        handResult.push(cardContainers[containerIndex][i]);
+      }
+      containerIndex++;
     }
-    return kindContainers.sort((a, b) => (a.length < b.length ? 1 : -1));
+    return handResult;
+  }
+
+  fillCardKinds(cards: Card[]): Array<Card[]> {
+    let kindContainers = new Array<Card[]>(13);
+    for (let i = 0; i < kindContainers.length; i++) {
+      kindContainers[i] = [];
+    }
+
+    for (let card of cards) {
+      const index = card.kind - 2;
+      kindContainers[index].push(card);
+    }
+
+    return kindContainers.sort((a, b) => {
+      if (a.length == 0 && b.length == 0) {
+        return 0;
+      }
+      return b.length - a.length || b[0].kind - a[0].kind;
+    }); //sort descending by total count, then by kind
   }
 
   hasMultiples(cards: Card[]): boolean {
