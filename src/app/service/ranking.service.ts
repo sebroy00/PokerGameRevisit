@@ -7,6 +7,21 @@ import { Card, Suit } from '../model/card';
 export class RankingService {
   constructor() {}
 
+  findMultiplesHand(cards: Card[]): Card[] {
+    const cardContainers = this.fillCardKinds(cards);
+    if (cardContainers[0].length < 2) {
+      return [];
+    }
+    return [];
+  }
+  fillCardKinds(cards: Card[]): Card[][] {
+    const kindContainers = new Array<Card[]>(13).fill([]);
+    for (const card of cards) {
+      kindContainers[card.kind - 2].push(card);
+    }
+    return kindContainers.sort((a, b) => (a.length < b.length ? 1 : -1));
+  }
+
   hasMultiples(cards: Card[]): boolean {
     const count = new Array(13).fill(0);
     for (const card of cards) {
