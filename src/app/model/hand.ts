@@ -17,12 +17,12 @@ export class Hand {
 
   handRank: HandRankType;
 
-  highCardKind: number;
-  pairCardKinds: number[];
-  multiplesCardKinds: number; // 3 or 4 of same kind
+  highCardKinds: number[];
+  multiplesCardKinds: number[];
 
-  constructor(cards: Card[], handRank: HandRankType) {
-    this.cards = cards;
-    this.handRank = handRank;
+  constructor() {
+    this.cards = [];
+    this.highCardKinds = [];
+    this.multiplesCardKinds = [];
   }
 }

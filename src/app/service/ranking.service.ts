@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Card, Suit } from '../model/card';
+import { Hand, HandRankType } from '../model/hand';
 
 @Injectable({
   providedIn: 'root',
@@ -7,7 +8,66 @@ import { Card, Suit } from '../model/card';
 export class RankingService {
   constructor() {}
 
-  findMultiplesHand(cards: Card[]): Card[] {
+  findMultiplesHand(cards: Card[]): Hand {
+    const cardContainers = this.fillCardKinds(cards);
+    const handResult = new Hand();
+
+    let containerIndex = 0;
+    while (handResult.cards.length < 5) {
+      for (let i = 0; i < cardContainers[containerIndex].length; i++) {
+        handResult.cards.push(cardContainers[containerIndex][i]);
+      }
+      if (cardContainers[containerIndex].length >= 2) {
+        handResult.multiplesCardKinds.push(
+          cardContainers[containerIndex][0].kind
+        );
+      } else {
+        handResult.highCardKinds.push(cardContainers[containerIndex][0].kind);
+      }
+      handResult.handRank = this.evaluateHandRank(
+        handResult.handRank,
+        cardContainers[containerIndex].length,
+        handResult.multiplesCardKinds.length
+      );
+      containerIndex++;
+    }
+
+    return handResult;
+  }
+
+  evaluateHandRank(
+    currentRank: HandRankType,
+    containerCount: number,
+    multiplesCount: number
+  ): HandRankType {
+    console.log(currentRank);
+    if (containerCount == 4 || currentRank == HandRankType.FourOffAKind) {
+      return HandRankType.FourOffAKind;
+    }
+    if (containerCount == 3) {
+      if (currentRank == HandRankType.ThreeOfAKind) {
+        return HandRankType.FullHouse;
+      } else {
+        return HandRankType.ThreeOfAKind;
+      }
+    }
+
+    if (multiplesCount == 2) {
+      if (currentRank == HandRankType.ThreeOfAKind) {
+        return HandRankType.FullHouse;
+      }
+      return HandRankType.TwoPair;
+    } else if (multiplesCount == 1) {
+      if (currentRank == HandRankType.ThreeOfAKind) {
+        return HandRankType.ThreeOfAKind;
+      }
+      return HandRankType.OnePair;
+    }
+
+    return HandRankType.HighCard;
+  }
+
+  findMultiplesCards(cards: Card[]): Card[] {
     const cardContainers = this.fillCardKinds(cards);
     const handResult: Card[] = [];
     if (cardContainers[0].length < 2) {
