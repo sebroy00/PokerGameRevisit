@@ -346,4 +346,44 @@ describe('RankingService', () => {
     expect(result.cards.length).toEqual(5);
     expect(result.handRank).toEqual(HandRankType.HighCard);
   });
+
+  it('should return straight cards', () => {
+    // arrange
+    const cards = [
+      new Card(Suit.Diamonds, 11),
+      new Card(Suit.Spades, 12),
+      new Card(Suit.Heart, 13),
+      new Card(Suit.Diamonds, 10),
+      new Card(Suit.Spades, 8),
+      new Card(Suit.Clubs, 9),
+      new Card(Suit.Clubs, 6),
+    ];
+    // act
+    const result = service.findStraightCards(cards);
+    // assert
+    expect(result[0].kind).toEqual(13);
+    expect(result[1].kind).toEqual(12);
+    expect(result[2].kind).toEqual(11);
+    expect(result[3].kind).toEqual(10);
+    expect(result[4].kind).toEqual(9);
+    expect(result.length).toEqual(5);
+  });
+
+  it('should return straight cards (lower straight)', () => {
+    // arrange
+    const cards = [
+      new Card(Suit.Diamonds, 11),
+      new Card(Suit.Spades, 7),
+      new Card(Suit.Heart, 13),
+      new Card(Suit.Diamonds, 10),
+      new Card(Suit.Spades, 8),
+      new Card(Suit.Clubs, 9),
+      new Card(Suit.Clubs, 13),
+    ];
+    // act
+    const result = service.findStraightCards(cards);
+    // assert
+    expect(result[0].kind).toEqual(11);
+    expect(result.length).toEqual(5);
+  });
 });

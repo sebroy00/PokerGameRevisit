@@ -24,7 +24,7 @@ export class RankingService {
       } else {
         handResult.highCardKinds.push(cardContainers[containerIndex][0].kind);
       }
-      handResult.handRank = this.evaluateHandRank(
+      handResult.handRank = this.evaluateHandRankMultiples(
         handResult.handRank,
         cardContainers[containerIndex].length,
         handResult.multiplesCardKinds.length
@@ -35,7 +35,7 @@ export class RankingService {
     return handResult;
   }
 
-  evaluateHandRank(
+  evaluateHandRankMultiples(
     currentRank: HandRankType,
     containerCount: number,
     multiplesCount: number
@@ -112,6 +112,29 @@ export class RankingService {
       }
     }
     return false;
+  }
+
+  findStraightCards(cards: Card[]): Card[] {
+    const sortedCards = cards.sort((a, b) => (a.kind < b.kind ? 1 : -1));
+    let count = 1;
+    let previousCardKind = sortedCards[0].kind;
+    let sequence: Card[] = [sortedCards[0]];
+    for (let i = 1; i < cards.length; i++) {
+      if (previousCardKind == sortedCards[i].kind) {
+        continue;
+      }
+      if (previousCardKind - sortedCards[i].kind == 1) {
+        sequence.push(sortedCards[i]);
+        if (sequence.length == 5) {
+          return sequence; // if we find the highest continuous sequence
+        }
+      } else {
+        sequence = [sortedCards[i]]; // reset if not continuous sequence
+      }
+      previousCardKind = sortedCards[i].kind;
+    }
+
+    return [];
   }
 
   hasStraight(cards: Card[]): boolean {
