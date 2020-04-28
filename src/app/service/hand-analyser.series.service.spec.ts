@@ -35,40 +35,6 @@ describe('HandAnalyserSeriesService', () => {
     expect(result.length).toEqual(7);
   });
 
-  it('should return true when player has straight', () => {
-    // arrange
-    const cards = [
-      new Card(Suit.Clubs, 2),
-      new Card(Suit.Clubs, 3),
-      new Card(Suit.Clubs, 4),
-      new Card(Suit.Clubs, 5),
-      new Card(Suit.Clubs, 6),
-      new Card(Suit.Clubs, 10),
-      new Card(Suit.Clubs, 11),
-    ];
-    // act
-    const result = service.hasStraight(cards);
-    // assert
-    expect(result).toBeTruthy();
-  });
-
-  it('should return true when player has straight with a pair', () => {
-    // arrange
-    const cards = [
-      new Card(Suit.Clubs, 2),
-      new Card(Suit.Clubs, 3),
-      new Card(Suit.Heart, 3),
-      new Card(Suit.Clubs, 4),
-      new Card(Suit.Clubs, 5),
-      new Card(Suit.Clubs, 6),
-      new Card(Suit.Clubs, 11),
-    ];
-    // act
-    const result = service.hasStraight(cards);
-    // assert
-    expect(result).toBeTruthy();
-  });
-
   it('should return straight cards', () => {
     // arrange
     const cards = [

@@ -31,27 +31,6 @@ export class HandAnalyserSeriesService {
     return [];
   }
 
-  hasStraight(cards: Card[]): boolean {
-    const sortedCards = cards.sort((a, b) => (a.kind < b.kind ? 1 : -1));
-    let count = 1;
-    let previousCardKind = sortedCards[0].kind;
-    for (let i = 1; i < cards.length; i++) {
-      if (previousCardKind == sortedCards[i].kind) {
-        continue;
-      }
-      if (previousCardKind - sortedCards[i].kind == 1) {
-        if (++count == 5) {
-          return true; // if we find the highest continuous sequence
-        }
-      } else {
-        count = 1; // reset if not continuous sequence
-      }
-      previousCardKind = sortedCards[i].kind;
-    }
-
-    return false;
-  }
-
   findFlushCards(cards: Card[]): Card[] {
     let suitCount = [0, 0, 0, 0];
     let suitContainer = new Array<Card[]>(4);
