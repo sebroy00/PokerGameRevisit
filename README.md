@@ -1,27 +1,19 @@
-# PokerGame
+# Poker Game Revisit
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.3.
+Author: Sébastien Roy
 
-## Development server
+## Background
+
+This project is a rewrite and revisit of one the first projects I completed when I first started programming. The initial goal of the project was to create an algorithm that could detect if a poker player's hand of cards has a flush. It expanded into something a little bigger, and I spent coutless hours building a full 2 player poker game in Visual Basic. It had a full user interface, game play with player actions, and even sound effects! It was very enjoyable to build something for the first time, and I soon after decided that I should explore the possibility of starting a career in software development.
+
+The goal of this project is to revisit the old code base, rewrite it in another language (or two), and make improvements to it as I go.
+
+## Running the project locally
+
+### Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
+### Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
