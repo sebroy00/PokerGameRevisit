@@ -54,7 +54,10 @@ export class HandAnalyserSeriesService {
 
   findFlushCards(cards: Card[]): Card[] {
     let suitCount = [0, 0, 0, 0];
-    let suitContainer = new Array<Card[]>(4).fill([]);
+    let suitContainer = new Array<Card[]>(4);
+    for (let i = 0; i < suitContainer.length; i++) {
+      suitContainer[i] = [];
+    }
     let flushSuit = -1;
     for (const card of cards) {
       suitCount[card.suit]++;
