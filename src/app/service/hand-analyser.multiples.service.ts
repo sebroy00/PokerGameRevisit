@@ -25,13 +25,13 @@ export class HandAnalyserMultiplesService {
         }
       } else {
         // when we already have two pairs, need to find next highest card
-        if (!!cardContainers[index + 1]) {
-          if (cardContainers[index][0] < cardContainers[index + 1][0]) {
-            hand.cards.push(cardContainers[index + 1][0]);
-            currentKind = cardContainers[index + 1][0].kind;
-          } else {
-            hand.cards.push(cardContainers[index][0]);
-          }
+        // there has to be another kind after the current one (2,2,2,1..) (2,2,1,1,1..)
+        // we just need to compare the current kind with the next kind
+        if (cardContainers[index][0] < cardContainers[index + 1][0]) {
+          hand.cards.push(cardContainers[index + 1][0]);
+          currentKind = cardContainers[index + 1][0].kind;
+        } else {
+          hand.cards.push(cardContainers[index][0]);
         }
       }
 

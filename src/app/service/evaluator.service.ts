@@ -24,15 +24,30 @@ export class EvaluatorService {
           handB.multiplesCardKinds
         );
         if (multiplesComparisonResult == 0) {
+          // ensure high cards not empty
           return this.compareHighCards(
             handA.highCardKinds,
             handB.highCardKinds
           );
+        } else {
+          return multiplesComparisonResult;
         }
       } else {
         return this.compareHighCards(handA.highCardKinds, handB.highCardKinds);
       }
     }
+  }
+
+  compareMultiples(handAMultiples: number[], handBMultiples: number[]): number {
+    for (let i = 0; i < handAMultiples.length; i++) {
+      if (handAMultiples[i] < handBMultiples[i]) {
+        return -1;
+      }
+      if (handAMultiples[i] > handBMultiples[i]) {
+        return 1;
+      }
+    }
+    return 0;
   }
 
   compareHighCards(handAhighCards: number[], handBhighCards: number[]): number {
@@ -41,17 +56,6 @@ export class EvaluatorService {
         return -1;
       }
       if (handAhighCards[i] > handBhighCards[i]) {
-        return 1;
-      }
-    }
-    return 0;
-  }
-  compareMultiples(handAMultiples: number[], handBMultiples: number[]): number {
-    for (let i = 0; i < handAMultiples.length; i++) {
-      if (handAMultiples[i] < handBMultiples[i]) {
-        return -1;
-      }
-      if (handAMultiples[i] > handBMultiples[i]) {
         return 1;
       }
     }
