@@ -10,29 +10,46 @@ export class HandAnalyserMultiplesService {
 
   findMultiplesHand(cards: Card[]): Hand {
     const cardContainers = this.fillCardKinds(cards);
-    const handResult = new Hand();
+    const hand = new Hand();
 
-    let containerIndex = 0;
-    while (handResult.cards.length < 5) {
-      for (let i = 0; i < cardContainers[containerIndex].length; i++) {
-        handResult.cards.push(cardContainers[containerIndex][i]);
-      }
-      if (cardContainers[containerIndex].length >= 2) {
-        handResult.multiplesCardKinds.push(
-          cardContainers[containerIndex][0].kind
-        );
+    let index = 0;
+    while (hand.cards.length < 5) {
+      let currentKind = cardContainers[index][0].kind;
+
+      let cardKindCount = cardContainers[index].length;
+
+      if (hand.multiplesCardKinds.length < 2) {
+        // add all the cards of the kind
+        for (let i = 0; i < cardKindCount; i++) {
+          hand.cards.push(cardContainers[index][i]);
+        }
       } else {
-        handResult.highCardKinds.push(cardContainers[containerIndex][0].kind);
+        // when we already have two pairs, need to find next highest card
+        if (!!cardContainers[index + 1]) {
+          if (cardContainers[index][0] < cardContainers[index + 1][0]) {
+            hand.cards.push(cardContainers[index + 1][0]);
+            currentKind = cardContainers[index + 1][0].kind;
+          } else {
+            hand.cards.push(cardContainers[index][0]);
+          }
+        }
       }
-      handResult.handRank = this.evaluateHandRankMultiples(
-        handResult.handRank,
-        cardContainers[containerIndex].length,
-        handResult.multiplesCardKinds.length
+
+      if (cardKindCount >= 2) {
+        hand.multiplesCardKinds.push(currentKind);
+      } else {
+        hand.highCardKinds.push(currentKind);
+      }
+
+      hand.handRank = this.evaluateHandRankMultiples(
+        hand.handRank,
+        cardKindCount,
+        hand.multiplesCardKinds.length
       );
-      containerIndex++;
+      index++;
     }
 
-    return handResult;
+    return hand;
   }
 
   fillCardKinds(cards: Card[]): Array<Card[]> {
@@ -56,14 +73,13 @@ export class HandAnalyserMultiplesService {
 
   evaluateHandRankMultiples(
     currentRank: HandRankType,
-    containerCount: number,
+    cardKindCount: number,
     multiplesCount: number
   ): HandRankType {
-    console.log(currentRank);
-    if (containerCount == 4 || currentRank == HandRankType.FourOffAKind) {
+    if (cardKindCount == 4 || currentRank == HandRankType.FourOffAKind) {
       return HandRankType.FourOffAKind;
     }
-    if (containerCount == 3) {
+    if (cardKindCount == 3) {
       if (currentRank == HandRankType.ThreeOfAKind) {
         return HandRankType.FullHouse;
       } else {
