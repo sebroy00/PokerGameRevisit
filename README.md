@@ -1,7 +1,7 @@
 # Poker Game Revisit
 
-Author: Sébastien Roy
-Status: In Progress
+- Author: Sébastien Roy
+- Status: In Progress
 
 ## Background
 
