@@ -25,4 +25,11 @@ export class Hand {
     this.highCardKinds = [];
     this.multiplesCardKinds = [];
   }
+
+  logCards() {
+    for (const card of this.cards) {
+      card.log();
+    }
+    console.log(this.highCardKinds);
+  }
 }
