@@ -1,3 +1,4 @@
+export const ACE = 13;
 export enum Suit {
   Heart,
   Spades,
@@ -8,7 +9,7 @@ export class Card {
   suit: Suit;
   kind: number;
   constructor(suit: Suit, kind: number) {
-    if (kind < 2 || kind > 13) {
+    if (kind < 2 || kind > ACE) {
       throw new Error(`Invalid card number: ${kind}`);
     }
     this.suit = suit;

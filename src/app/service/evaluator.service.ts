@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HandAnalyserSeriesService } from './hand-analyser.series.service';
 import { HandAnalyserMultiplesService } from './hand-analyser.multiples.service';
 import { Hand, HandRankType } from '../model/hand';
-import { Card } from '../model/card';
+import { Card, ACE } from '../model/card';
 
 @Injectable({
   providedIn: 'root',
@@ -18,15 +18,14 @@ export class EvaluatorService {
 
     const flushCards = this.handAnalyserSeriesService.findFlushCards(cards);
     if (flushCards.length != 0) {
-      for (const card of flushCards) {
-        card.log();
-      }
       const straightFlushCards = this.handAnalyserSeriesService.findStraightCards(
         flushCards
       );
+      // If we have a straight within that flush
       if (straightFlushCards.length != 0) {
         hand.cards = straightFlushCards;
-        if (straightFlushCards[0].kind == 13) {
+        // If the high card within that straight is an Ace
+        if (straightFlushCards[0].kind == ACE) {
           hand.handRank = HandRankType.RoyalFlush;
         } else {
           hand.handRank = HandRankType.StraightFlush;
@@ -44,6 +43,8 @@ export class EvaluatorService {
     const straightCards = this.handAnalyserSeriesService.findStraightCards(
       cards
     );
+    // If we have a straight, we know there's no possibility of any multiples
+    // other than a pair, which is a lower rank than straight.
     if (straightCards.length != 0) {
       hand.cards = straightCards;
       hand.handRank = HandRankType.Straight;
