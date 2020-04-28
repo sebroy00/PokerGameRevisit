@@ -9,5 +9,5 @@ import { Card, Suit } from './model/card';
 })
 export class AppComponent {
   title = 'poker-game';
-  constructor(private handAnalyserSeriesService: HandAnalyserSeriesService) {}
+  constructor() {}
 }
